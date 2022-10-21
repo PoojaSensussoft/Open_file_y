@@ -107,10 +107,10 @@ public class OpenFilePlugin implements MethodCallHandler
                     }
                 }
                 if (hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    if (TYPE_STRING_APK.equals(typeString)) {
-                        openApkFile();
-                        return;
-                    }
+//                    if (TYPE_STRING_APK.equals(typeString)) {
+//                        openApkFile();
+//                        return;
+//                    }
                     startActivity();
                 } else {
                     ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE);
@@ -350,37 +350,37 @@ public class OpenFilePlugin implements MethodCallHandler
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void openApkFile() {
-        if (!canInstallApk()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startInstallPermissionSettingActivity();
-            } else {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, REQUEST_CODE);
-            }
-        } else {
-            startActivity();
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    private void openApkFile() {
+//        if (!canInstallApk()) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                startInstallPermissionSettingActivity();
+//            } else {
+//                ActivityCompat.requestPermissions(activity,
+//                        new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, REQUEST_CODE);
+//            }
+//        } else {
+//            startActivity();
+//        }
+//    }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean canInstallApk() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return activity.getPackageManager().canRequestPackageInstalls();
-        }
-        return hasPermission(Manifest.permission.REQUEST_INSTALL_PACKAGES);
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    private boolean canInstallApk() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            return activity.getPackageManager().canRequestPackageInstalls();
+//        }
+//        return hasPermission(Manifest.permission.REQUEST_INSTALL_PACKAGES);
+//    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void startInstallPermissionSettingActivity() {
-        if (activity == null) {
-            return;
-        }
-        Uri packageURI = Uri.parse("package:" + activity.getPackageName());
-        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
-        activity.startActivityForResult(intent, RESULT_CODE);
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void startInstallPermissionSettingActivity() {
+//        if (activity == null) {
+//            return;
+//        }
+//        Uri packageURI = Uri.parse("package:" + activity.getPackageName());
+//        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+//        activity.startActivityForResult(intent, RESULT_CODE);
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -405,11 +405,13 @@ public class OpenFilePlugin implements MethodCallHandler
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == RESULT_CODE) {
-            if (canInstallApk()) {
-                startActivity();
-            } else {
-                result(-3, "Permission denied: " + Manifest.permission.REQUEST_INSTALL_PACKAGES);
-            }
+            startActivity();
+
+//            if (canInstallApk()) {
+//                startActivity();
+//            } else {
+//                result(-3, "Permission denied: " + Manifest.permission.REQUEST_INSTALL_PACKAGES);
+//            }
         }
         return false;
     }
