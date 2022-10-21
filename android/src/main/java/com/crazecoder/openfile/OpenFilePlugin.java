@@ -388,7 +388,7 @@ public class OpenFilePlugin implements MethodCallHandler
         if (requestCode != REQUEST_CODE) return false;
         if (hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 && TYPE_STRING_APK.equals(typeString)) {
-            openApkFile();
+           // openApkFile();
             return false;
         }
         for (String string : strings) {
